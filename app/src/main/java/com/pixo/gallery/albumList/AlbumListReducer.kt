@@ -1,7 +1,7 @@
 package com.pixo.gallery.albumList
 
+import com.pixo.gallery.Album
 import com.pixo.gallery.Reducer
-import com.pixo.gallery.Test
 import javax.inject.Inject
 
 class AlbumListReducer @Inject constructor() : Reducer<AlbumListMutation, AlbumListUiState> {
@@ -12,7 +12,7 @@ class AlbumListReducer @Inject constructor() : Reducer<AlbumListMutation, AlbumL
         return when(mutation) {
             AlbumListMutation.ShowLostConnection -> mutateToLostConnection()
             AlbumListMutation.ShowLoader -> mutateToShowLoader()
-            is AlbumListMutation.ShowAlbumList -> mutateToShowTodoList(
+            is AlbumListMutation.ShowAlbumList -> mutateToShowAlbumList(
                 mutation.albums
             )
             is AlbumListMutation.ShowError -> mutateToShowError(
@@ -25,8 +25,8 @@ class AlbumListReducer @Inject constructor() : Reducer<AlbumListMutation, AlbumL
         return AlbumListUiState.Error(message)
     }
 
-    private fun mutateToShowTodoList(todoList: List<Test>): AlbumListUiState.Content {
-        return AlbumListUiState.Content(todoList)
+    private fun mutateToShowAlbumList(albumList: List<Album>): AlbumListUiState.Content {
+        return AlbumListUiState.Content(albumList)
     }
 
     private fun mutateToLostConnection(): AlbumListUiState {

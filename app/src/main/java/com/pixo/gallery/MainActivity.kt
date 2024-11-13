@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AlbumListScreen(viewModel: AlbumListViewModel = hiltViewModel(), onAlbumClick: (Test) -> Unit) {
+fun AlbumListScreen(viewModel: AlbumListViewModel = hiltViewModel(), onAlbumClick: (Album) -> Unit) {
     val state by viewModel.state.collectAsState()
 
     when (state) {
@@ -79,15 +79,15 @@ fun AlbumListScreen(viewModel: AlbumListViewModel = hiltViewModel(), onAlbumClic
 }
 
 @Composable
-fun AlbumItem(album: Test, onAlbumClick: () -> Unit) {
+fun AlbumItem(album: Album, onAlbumClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
             .clickable { onAlbumClick() }
     ) {
-        Text(text = album.test, style = MaterialTheme.typography.bodyMedium)
+        Text(text = album.name, style = MaterialTheme.typography.bodyMedium)
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = "${album.test} Images", style = MaterialTheme.typography.bodySmall)
+        Text(text = "${album.photosCount} Images", style = MaterialTheme.typography.bodySmall)
     }
 }
