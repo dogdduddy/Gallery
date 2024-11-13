@@ -76,4 +76,7 @@ dependencies {
     // Coil
     implementation("io.coil-kt.coil3:coil-compose:3.0.2")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.2")
+
+    // Paging
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
 }
