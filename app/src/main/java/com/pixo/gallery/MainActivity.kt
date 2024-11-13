@@ -20,6 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,9 +41,36 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AlbumListScreen(onAlbumClick = {})
+                    AlbumListWithPermission()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun AlbumListWithPermission() {
+    var isPermissionGranted by remember { mutableStateOf(false) }
+
+    // 권한 요청 로직
+    PermissionRequester(
+        permission = Permissions.readExternalStoragePermission,
+        onDismissRequest = { isPermissionGranted = false },
+        onPermissionGranted = {
+            // 권한이 승인되었음을 상태에 반영
+            isPermissionGranted = true
+        },
+        onPermissionDenied = { isPermissionGranted = false }
+    )
+
+    // 권한이 승인되었을 때만 AlbumListScreen을 렌더링
+    if (isPermissionGranted) {
+        AlbumListScreen(onAlbumClick = {
+            // 앨범 클릭 시 동작 정의
+        })
+    } else {
+        CheckPermissionDialog(onDismissRequest = { /*TODO*/ }) {
+            
         }
     }
 }
