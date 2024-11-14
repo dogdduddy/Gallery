@@ -50,29 +50,18 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AlbumListWithPermission() {
-    var isPermissionGranted by remember { mutableStateOf(false) }
 
     // 권한 요청 로직
     PermissionRequester(
         permission = Permissions.readExternalStoragePermission,
-        onDismissRequest = { isPermissionGranted = false },
-        onPermissionGranted = {
-            // 권한이 승인되었음을 상태에 반영
-            isPermissionGranted = true
-        },
-        onPermissionDenied = { isPermissionGranted = false }
+        onDismissRequest = {},
+        onPermissionGranted = {},
+        onPermissionDenied = {}
     )
 
-    // 권한이 승인되었을 때만 AlbumListScreen을 렌더링
-    if (isPermissionGranted) {
-        AlbumListScreen(onAlbumClick = {
-            // 앨범 클릭 시 동작 정의
-        })
-    } else {
-        CheckPermissionDialog(onDismissRequest = { /*TODO*/ }) {
-            
-        }
-    }
+    AlbumListScreen(onAlbumClick = {
+        // 앨범 클릭 시 동작 정의
+    })
 }
 
 @Composable
@@ -93,7 +82,7 @@ fun AlbumListScreen(viewModel: AlbumListViewModel = hiltViewModel(), onAlbumClic
                 columns = GridCells.Fixed(2),
                 state = rememberLazyGridState()
             ) {
-                items(content.albums.size, span = { index ->
+                items(content.albums.size, span = { _ ->
                     GridItemSpan(1)
                 }) { index ->
                     val album = content.albums[index]

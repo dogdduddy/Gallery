@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Row
@@ -72,23 +73,34 @@ fun PermissionRequester(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
+            Log.d("permissionLog", "permissionGranted")
             onPermissionGranted()
         } else {
-            if (shouldShowRequestPermissionRationale(context, permission)) {
-                showDialog = !showDialog
-            } else {
-                onPermissionDenied()
-            }
+            showDialog = !showDialog
+//            Log.d("permissionLog", "permissionDenied")
+//            if (shouldShowRequestPermissionRationale(context, permission)) {
+//
+//                Log.d("permissionLog", "shouldShowRequestPermissionRationale")
+//                showDialog = !showDialog
+//            } else {
+//                Log.d("permissionLog", "Too denied")
+//                onPermissionDenied()
+//            }
         }
     }
 
     // 권한 요청
     LaunchedEffect(Unit) {
-        if (permissionState.status.shouldShowRationale) {   // 사용자가 거부한 이력이 있으면 다이얼로그
-            showDialog = !showDialog
-        } else {
-            permissionLauncher.launch(permission)
-        }
+
+        permissionLauncher.launch(permission)
+
+//        if (permissionState.status.shouldShowRationale) {   // 사용자가 거부한 이력이 있으면 다이얼로그
+//            showDialog = !showDialog
+//            Log.d("permissionLog", "showDialog $showDialog")
+//        } else {
+//            Log.d("permissionLog", "permissionLaunch")
+//            permissionLauncher.launch(permission)
+//        }
     }
 }
 
