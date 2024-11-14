@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.pixo.gallery.albumList.AlbumListUiIntent
 import com.pixo.gallery.albumList.AlbumListUiState
 import com.pixo.gallery.albumList.AlbumListViewModel
 import com.pixo.gallery.ui.theme.GalleryTheme
@@ -67,6 +68,7 @@ fun AlbumListWithPermission() {
 @Composable
 fun AlbumListScreen(viewModel: AlbumListViewModel = hiltViewModel(), onAlbumClick: (Album) -> Unit) {
     val state by viewModel.state.collectAsState()
+    viewModel.processIntent(AlbumListUiIntent.FetchAlbums)
 
     when (state) {
         is AlbumListUiState.Loading -> {

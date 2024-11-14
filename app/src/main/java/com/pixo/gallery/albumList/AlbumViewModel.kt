@@ -17,7 +17,6 @@ import javax.inject.Inject
 class AlbumListViewModel @Inject constructor(
     private val albumListReducer: Reducer<AlbumListMutation, AlbumListUiState>,
     private val actionProcessor: ActionProcessor<AlbumListUiIntent, AlbumListMutation, AlbumListEvent>
-//    private val galleryRepository: GalleryRepository
 ) : ViewModel() {
 
     private val _state =
@@ -26,10 +25,6 @@ class AlbumListViewModel @Inject constructor(
 
     private val _event = MutableSharedFlow<AlbumListEvent>()
     val event = _event.asSharedFlow()
-
-    init {
-        processIntent(AlbumListUiIntent.FetchAlbums)
-    }
 
     fun processIntent(intent: AlbumListUiIntent) {
         viewModelScope.launch {
