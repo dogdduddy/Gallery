@@ -43,6 +43,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     AlbumListWithPermission()
+
+                    AlbumListScreen(onAlbumClick = {
+                        // 앨범 클릭 시 동작 정의
+                    })
                 }
             }
         }
@@ -50,19 +54,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AlbumListWithPermission() {
+fun AlbumListWithPermission(viewModel: AlbumListViewModel = hiltViewModel()) {
 
     // 권한 요청 로직
     PermissionRequester(
         permission = Permissions.readExternalStoragePermission,
         onDismissRequest = {},
-        onPermissionGranted = {},
+        onPermissionGranted = {
+            viewModel.processIntent(AlbumListUiIntent.FetchAlbums)
+        },
         onPermissionDenied = {}
     )
-
-    AlbumListScreen(onAlbumClick = {
-        // 앨범 클릭 시 동작 정의
-    })
 }
 
 @Composable
@@ -92,7 +94,7 @@ fun AlbumListScreen(viewModel: AlbumListViewModel = hiltViewModel(), onAlbumClic
                 }
             }
         }
-        is AlbumListUiState.Error -> {
+        else -> {
             Text(text = (state as AlbumListUiState.Error).message)
         }
     }
